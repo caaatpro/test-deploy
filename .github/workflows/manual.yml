@@ -31,14 +31,13 @@ jobs:
         run: $BUILD_SCRIPT
       # Доставляем собранное приложение на сервер
       - name: Deploy to Server
-        uses: wlixcc/SFTP-Deploy-Action@v1.0
+        uses: Creepios/sftp-action@v1.0.3
         with:
-          username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
-          server: '${{ secrets.DEPLOY_SERVER_HOST }}'
-          ssh_private_key: ${{ secrets.DEPLOY_SERVER_KEY }}
+          host: '${{ secrets.DEPLOY_SERVER_HOST }}'
           port: ${{ secrets.DEPLOY_SERVER_PORT }}
-          local_path: ${{ env.BUILD_SCRIPT_OUTPUT }}
-          remote_path: ${{ env.DEPLOY_PATH }}
-          args: '-o ConnectTimeout=5'
+          username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
+          password: ${{ secrets.DEPLOY_SERVER_PASSWORD }}
+          localPath: ${{ env.BUILD_SCRIPT_OUTPUT }}
+          remotePath: ${{ env.DEPLOY_PATH }}
       - name: Print Info
         run: echo `Deployed at https://${BRANCH_NAME}.app.example.ru/`
